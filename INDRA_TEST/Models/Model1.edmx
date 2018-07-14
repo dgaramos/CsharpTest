@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="INDRA_TESTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Produto">
+          <Key>
+            <PropertyRef Name="IdProduto" />
+          </Key>
+          <Property Name="IdProduto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descricao" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Qntd" Type="int" Nullable="false" />
+          <Property Name="DataFab" Type="datetime" Nullable="false" />
+          <Property Name="Preco" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Venda">
+          <Key>
+            <PropertyRef Name="IdVenda" />
+          </Key>
+          <Property Name="IdVenda" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ValorTotal" Type="float" Nullable="false" />
+          <Property Name="Data" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VendaProduto">
+          <Key>
+            <PropertyRef Name="IdVendaProduto" />
+          </Key>
+          <Property Name="IdVendaProduto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Qntd" Type="int" Nullable="false" />
+          <Property Name="Produto_IdProduto" Type="int" Nullable="false" />
+          <Property Name="Venda_IdVenda" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ProdutoVendaProduto">
+          <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
+          <End Role="VendaProduto" Type="Self.VendaProduto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produto">
+              <PropertyRef Name="IdProduto" />
+            </Principal>
+            <Dependent Role="VendaProduto">
+              <PropertyRef Name="Produto_IdProduto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendaProdutoVenda">
+          <End Role="Venda" Type="Self.Venda" Multiplicity="1" />
+          <End Role="VendaProduto" Type="Self.VendaProduto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Venda">
+              <PropertyRef Name="IdVenda" />
+            </Principal>
+            <Dependent Role="VendaProduto">
+              <PropertyRef Name="Venda_IdVenda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="INDRA_TESTModelStoreContainer">
+          <EntitySet Name="Produto" EntityType="Self.Produto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Venda" EntityType="Self.Venda" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VendaProduto" EntityType="Self.VendaProduto" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ProdutoVendaProduto" Association="Self.FK_ProdutoVendaProduto">
+            <End Role="Produto" EntitySet="Produto" />
+            <End Role="VendaProduto" EntitySet="VendaProduto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendaProdutoVenda" Association="Self.FK_VendaProdutoVenda">
+            <End Role="Venda" EntitySet="Venda" />
+            <End Role="VendaProduto" EntitySet="VendaProduto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="INDRA_TESTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Produto">
+          <Key>
+            <PropertyRef Name="IdProduto" />
+          </Key>
+          <Property Name="IdProduto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descricao" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Qntd" Type="Int32" Nullable="false" />
+          <Property Name="DataFab" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Preco" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Venda">
+          <Key>
+            <PropertyRef Name="IdVenda" />
+          </Key>
+          <Property Name="IdVenda" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ValorTotal" Type="Double" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="VendaProduto" Relationship="Self.FK_VendaProdutoVenda" FromRole="Venda" ToRole="VendaProduto" />
+        </EntityType>
+        <EntityType Name="VendaProduto">
+          <Key>
+            <PropertyRef Name="IdVendaProduto" />
+          </Key>
+          <Property Name="IdVendaProduto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Qntd" Type="Int32" Nullable="false" />
+          <Property Name="Produto_IdProduto" Type="Int32" Nullable="false" />
+          <Property Name="Venda_IdVenda" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Produto" Relationship="Self.FK_ProdutoVendaProduto" FromRole="VendaProduto" ToRole="Produto" />
+          <NavigationProperty Name="Venda" Relationship="Self.FK_VendaProdutoVenda" FromRole="VendaProduto" ToRole="Venda" />
+        </EntityType>
+        <Association Name="FK_ProdutoVendaProduto">
+          <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
+          <End Role="VendaProduto" Type="Self.VendaProduto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produto">
+              <PropertyRef Name="IdProduto" />
+            </Principal>
+            <Dependent Role="VendaProduto">
+              <PropertyRef Name="Produto_IdProduto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendaProdutoVenda">
+          <End Role="Venda" Type="Self.Venda" Multiplicity="1" />
+          <End Role="VendaProduto" Type="Self.VendaProduto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Venda">
+              <PropertyRef Name="IdVenda" />
+            </Principal>
+            <Dependent Role="VendaProduto">
+              <PropertyRef Name="Venda_IdVenda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="INDRA_TESTEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Produto" EntityType="Self.Produto" />
+          <EntitySet Name="Venda" EntityType="Self.Venda" />
+          <EntitySet Name="VendaProduto" EntityType="Self.VendaProduto" />
+          <AssociationSet Name="FK_ProdutoVendaProduto" Association="Self.FK_ProdutoVendaProduto">
+            <End Role="Produto" EntitySet="Produto" />
+            <End Role="VendaProduto" EntitySet="VendaProduto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendaProdutoVenda" Association="Self.FK_VendaProdutoVenda">
+            <End Role="Venda" EntitySet="Venda" />
+            <End Role="VendaProduto" EntitySet="VendaProduto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="INDRA_TESTModelStoreContainer" CdmEntityContainer="INDRA_TESTEntities">
+          <EntitySetMapping Name="Produto">
+            <EntityTypeMapping TypeName="INDRA_TESTModel.Produto">
+              <MappingFragment StoreEntitySet="Produto">
+                <ScalarProperty Name="IdProduto" ColumnName="IdProduto" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Qntd" ColumnName="Qntd" />
+                <ScalarProperty Name="DataFab" ColumnName="DataFab" />
+                <ScalarProperty Name="Preco" ColumnName="Preco" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Venda">
+            <EntityTypeMapping TypeName="INDRA_TESTModel.Venda">
+              <MappingFragment StoreEntitySet="Venda">
+                <ScalarProperty Name="IdVenda" ColumnName="IdVenda" />
+                <ScalarProperty Name="ValorTotal" ColumnName="ValorTotal" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VendaProduto">
+            <EntityTypeMapping TypeName="INDRA_TESTModel.VendaProduto">
+              <MappingFragment StoreEntitySet="VendaProduto">
+                <ScalarProperty Name="IdVendaProduto" ColumnName="IdVendaProduto" />
+                <ScalarProperty Name="Qntd" ColumnName="Qntd" />
+                <ScalarProperty Name="Produto_IdProduto" ColumnName="Produto_IdProduto" />
+                <ScalarProperty Name="Venda_IdVenda" ColumnName="Venda_IdVenda" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
