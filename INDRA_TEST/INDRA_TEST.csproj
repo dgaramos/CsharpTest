@@ -157,6 +157,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProdutoController.cs" />
+    <Compile Include="Controllers\VendaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -189,7 +190,8 @@
   <ItemGroup>
     <Content Include="AngularJSApp\Vendas\Controller.js" />
     <Content Include="AngularJSApp\Vendas\Module.js" />
-    <Content Include="AngularJSApp\Vendas\Service.js" />
+    <Content Include="AngularJSApp\Vendas\ProdutoService.js" />
+    <Content Include="AngularJSApp\Vendas\VendaService.js" />
     <Content Include="App_Data\INDRA_TEST.mdf" />
     <Content Include="App_Data\INDRA_TEST_log.ldf">
       <DependentUpon>INDRA_TEST.mdf</DependentUpon>
@@ -280,8 +282,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -307,6 +307,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Produto\" />
+    <Folder Include="Views\Venda\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

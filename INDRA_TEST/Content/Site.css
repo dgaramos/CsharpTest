@@ -1,14 +1,40 @@
 ﻿body {
-    padding-top: 50px;
     padding-bottom: 20px;
+    background-color:#e0fef4;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    background-color: #cafeed;
+    border: 5px solid #ffffff;
+    border-radius: 5px;
+    padding-bottom: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
+.content-container {
+    padding: 0px;
+    background-color: #cafeed;
+}
+
+.lista-produtos {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.tabela-prod {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.sub-container {
+    border: 5px solid #ffffff;
+    border-radius: 5px;
+    padding-bottom: 10px;
+}
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */

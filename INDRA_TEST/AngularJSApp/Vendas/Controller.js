@@ -1,10 +1,15 @@
 ﻿// Controller
-vendasApp.controller('produtoController', function ($scope, produtoService){
+vendasApp.controller('produtoController', function ($scope, produtoService, vendaService){
 
 
     carregarProdutos();
 
+    
     function carregarProdutos() {
+        $scope.Data = new Date();
+        $scope.ValorTotal = 0.0;
+        $scope.QntdCarrinho = 0;
+        $scope.VendaProduto = [];
         var listarProdutos = produtoService.getTodosProdutos();
 
         listarProdutos.then(function (d) {
@@ -24,6 +29,8 @@ vendasApp.controller('produtoController', function ($scope, produtoService){
             dataFab: $scope.dataFab,
             preco: $scope.preco
         };
+
+        console.log(produto);
 
         var adicionarInfos = produtoService.adicionarProduto(produto);
 
@@ -115,4 +122,59 @@ vendasApp.controller('produtoController', function ($scope, produtoService){
     };
 
 
+    //Método responsável por adicionar cada propriedade de uma Nova Venda:
+    $scope.efetuarVenda = function () {
+
+        var venda = {
+            IdVenda: $scope.IdVenda,
+            Data: $scope.Data,
+            VendaProduto: $scope.VendaProduto,
+            ValorTotal: $scope.ValorTotal
+        };
+
+        console.log(venda);
+
+        var adicionarInfos = vendaService.efetuarVenda(venda);
+
+        adicionarInfos.then(function (d) {
+            if (d.data.success === true) {
+                carregarProdutos();
+                alert("Venda efetuada com Sucesso!");
+
+                $scope.limparDadosVenda();
+            } else { alert("Venda não efetuada!"); }
+        },
+            function () {
+                alert("Ocorreu um erro ao tentar efetuar uma Nova Venda!");
+            });
+    };
+
+    //Limpar os campos após inserir os dados no db://Limpar os campos após inserir os dados no db:
+    $scope.limparDadosVenda = function () {
+        $scope.IdVenda = "";
+        $scope.Data = new Date();
+        $scope.VendaProduto = [];
+        $scope.ValorTotal = 0.0;
+    };
+
+    $scope.carregarProduto = function (produto) {
+        $scope.produtoCarregado = produto;
+    }
+
+    $scope.adicionarCarrinho = function (produto, qntd) {
+        if ($scope.QntdCarrinho === 0) {
+            alert("Informe a quantidade de produtos a ser inserida no carrinho");
+        } else {
+            $scope.VendaProduto.push({ Produto: produto, Qntd: qntd })
+            $scope.ValorTotal = $scope.ValorTotal + (qntd * produto.Preco);
+            $scope.produtoCarregado = ""
+            $scope.QntdCarrinho = 0;
+        }
+    }
+
+    $scope.removeCarrinho = function (vendaProd) {
+        $scope.ValorTotal = $scope.ValorTotal - ($scope.VendaProduto[vendaProd].Qntd * $scope.VendaProduto[vendaProd].Produto.Preco);
+        console.log($scope.ValorTotal);
+        $scope.VendaProduto.splice(vendaProd, 1);
+    }
 });

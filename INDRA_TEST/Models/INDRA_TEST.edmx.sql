@@ -42,14 +42,14 @@ CREATE TABLE [dbo].[Produto] (
     [Descricao] nvarchar(50)  NOT NULL,
     [Qntd] int  NOT NULL,
     [DataFab] datetime  NOT NULL,
-    [Preco] decimal(19,4)  NOT NULL
+    [Preco] float  NOT NULL
 );
 GO
 
 -- Creating table 'Venda'
 CREATE TABLE [dbo].[Venda] (
     [IdVenda] int IDENTITY(1,1) NOT NULL,
-    [ValorTotal] decimal(19,4)  NOT NULL,
+    [ValorTotal] float  NOT NULL,
     [Data] datetime  NULL
 );
 GO
